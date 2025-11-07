@@ -1,236 +1,231 @@
-# ML Churn Prediction - MLOps Project
+# 🎯 Customer Churn Prediction - MLOps System
 
-An end-to-end MLOps pipeline for customer churn prediction with automated training, deployment, monitoring, and retraining.
+A production-ready machine learning system for predicting customer churn with **84% ROC-AUC accuracy**. Built with FastAPI, MLflow, and automated CI/CD pipeline.
 
-## 🎯 Project Overview
+![Python](https://img.shields.io/badge/python-3.12-blue.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.108-green.svg)
+![MLflow](https://img.shields.io/badge/MLflow-2.9-orange.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
-This project demonstrates production-grade ML system architecture including:
-- **Automated ML Pipeline**: Training, evaluation, and model registry
-- **REST API**: FastAPI-based model serving
-- **CI/CD**: Automated testing and deployment
-- **Monitoring**: Real-time performance tracking and drift detection
-- **Orchestration**: Automated retraining workflows
-- **Cloud Deployment**: Production-ready infrastructure
+## 🚀 Project Overview
 
-## 📊 Business Problem
+This project implements an end-to-end MLOps pipeline for predicting customer churn in a telecommunications company. The system processes 7,043 customer records, trains multiple ML models, and serves predictions via a REST API.
 
-Predict customer churn to enable proactive retention strategies. The model identifies customers likely to cancel their subscription in the next 30 days.
+**Key Achievement:** Identified that **tenure, monthly charges, and contract type** are the strongest predictors of customer churn.
+
+## 📊 Model Performance
+
+### Metrics
+- **ROC-AUC:** 84.0% ⭐
+- **Accuracy:** 79.8%
+- **Precision:** 64.1%
+- **Recall:** 54.8%
+- **F1-Score:** 59.1%
+
+### Evaluation Results
+
+**Confusion Matrix**  
+![Confusion Matrix](evaluation_charts/confusion_matrix.png)
+
+**ROC Curve**  
+![ROC Curve](evaluation_charts/roc_curve.png)
+
+**Feature Importance**  
+![Feature Importance](evaluation_charts/feature_importance.png)
+
+## 🎯 Live API Demo
+
+**Low-Risk Customer Prediction:**  
+![Low Risk](screenshots/low_risk_prediction.png)
+
+**High-Risk Customer Prediction:**  
+![High Risk](screenshots/high_risk_prediction.png)
 
 ## 🏗️ Architecture
-
 ```
 ┌─────────────┐      ┌──────────────┐      ┌─────────────┐
-│   Data      │─────▶│   Training   │─────▶│   Model     │
-│   Sources   │      │   Pipeline   │      │   Registry  │
+│   Raw Data  │─────▶│ Preprocessing │─────▶│   Training  │
+│   (7,043)   │      │   Pipeline    │      │  (3 Models) │
 └─────────────┘      └──────────────┘      └─────────────┘
-                            │                      │
-                            ▼                      ▼
-                     ┌──────────────┐      ┌─────────────┐
-                     │  Experiment  │      │  API        │
-                     │  Tracking    │      │  Service    │
-                     └──────────────┘      └─────────────┘
-                                                  │
-                                                  ▼
-                                           ┌─────────────┐
-                                           │ Monitoring  │
-                                           │ & Alerting  │
-                                           └─────────────┘
+                                                    │
+                                                    ▼
+                                            ┌─────────────┐
+                                            │   MLflow    │
+                                            │   Tracking  │
+                                            └─────────────┘
+                                                    │
+                                                    ▼
+┌─────────────┐      ┌──────────────┐      ┌─────────────┐
+│   FastAPI   │◀─────│  Best Model  │◀─────│   Model     │
+│     API     │      │   (Logistic) │      │   Registry  │
+└─────────────┘      └──────────────┘      └─────────────┘
 ```
 
-## 🚀 Features
+## 🛠️ Technologies Used
 
-### Phase 1: Model Development ✅
-- [x] Data exploration and EDA
-- [x] Feature engineering pipeline
-- [x] Model training with hyperparameter tuning
-- [x] Experiment tracking with MLflow
-- [x] Model versioning with DVC
+- **ML/Data:** Python, scikit-learn, XGBoost, pandas, numpy
+- **MLOps:** MLflow (experiment tracking), DVC (data versioning)
+- **API:** FastAPI, Uvicorn, Pydantic
+- **Deployment:** Docker, Docker Compose
+- **Monitoring:** Prometheus, Grafana
+- **Testing:** pytest, pytest-cov
+- **Visualization:** matplotlib, seaborn, plotly
 
-### Phase 2: API Development
-- [ ] FastAPI REST endpoints
-- [ ] Input validation with Pydantic
-- [ ] Batch prediction support
-- [ ] Docker containerization
-
-### Phase 3: CI/CD
-- [ ] GitHub Actions workflows
-- [ ] Automated testing (unit, integration)
-- [ ] Code quality checks
-- [ ] Automated deployment
-
-### Phase 4: Cloud Deployment
-- [ ] Infrastructure as Code (Terraform)
-- [ ] Cloud deployment (AWS/GCP)
-- [ ] Load balancing
-- [ ] Orchestration with Airflow
-
-### Phase 5: Monitoring
-- [ ] Prometheus metrics
-- [ ] Grafana dashboards
-- [ ] Data drift detection (Evidently)
-- [ ] Alerting system
-
-### Phase 6: Automated Retraining
-- [ ] Scheduled retraining pipeline
-- [ ] Performance-triggered retraining
-- [ ] A/B testing framework
-- [ ] Model rollback capability
-
-## 📁 Project Structure
-
+## 📦 Project Structure
 ```
 ml-churn-prediction/
-├── data/
-│   ├── raw/              # Original data
-│   ├── processed/        # Cleaned & transformed data
-│   └── models/           # Saved models
-├── notebooks/
-│   └── exploration.ipynb # EDA and experimentation
 ├── src/
-│   ├── features/         # Feature engineering
-│   ├── models/           # Model training & evaluation
-│   ├── api/              # FastAPI application
-│   ├── monitoring/       # Drift detection & metrics
-│   └── utils/            # Helper functions
-├── tests/                # Unit and integration tests
-├── airflow_dags/         # Airflow workflow definitions
-├── terraform/            # Infrastructure as Code
-├── .github/workflows/    # CI/CD pipelines
-├── config/               # Configuration files
-├── requirements.txt      # Python dependencies
+│   ├── features/           # Data preprocessing & feature engineering
+│   ├── models/             # Model training, evaluation, prediction
+│   ├── api/                # FastAPI application
+│   ├── monitoring/         # Performance monitoring
+│   └── utils/              # Helper functions
+├── data/
+│   ├── raw/                # Original dataset
+│   ├── processed/          # Processed data
+│   └── models/             # Saved models & evaluation
+├── tests/                  # Test suite
+├── config/                 # Configuration files
+├── Dockerfile              # Container definition
+├── docker-compose.yml      # Multi-container setup
 └── README.md
 ```
 
-## 🛠️ Setup
+## 🚀 Quick Start
 
 ### Prerequisites
-- Python 3.8+
-- Docker & Docker Compose
-- Git
-- AWS/GCP account (for deployment)
+- Python 3.12+
+- pip
+- Docker (optional)
 
 ### Installation
-
-1. **Clone the repository**
 ```bash
-git clone <your-repo-url>
+# Clone repository
+git clone https://github.com/YOUR_USERNAME/ml-churn-prediction.git
 cd ml-churn-prediction
-```
 
-2. **Create virtual environment**
-```bash
-python -m venv venv
-source venv/bin/activate  # On Mac/Linux
-# venv\Scripts\activate   # On Windows
-```
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-3. **Install dependencies**
-```bash
+# Install dependencies
 pip install -r requirements.txt
+
+# Download dataset
+python src/utils/download_data.py
+
+# Train model
+python src/features/preprocessing.py
+python src/models/train.py
+
+# Start API
+python -m uvicorn src.api.main:app --reload
 ```
 
-4. **Set up environment variables**
-```bash
-cp .env.example .env
-# Edit .env with your configuration
+### Usage
+
+**Access API Documentation:**
+```
+http://localhost:8000/docs
 ```
 
-5. **Download dataset**
-```bash
-# Instructions coming soon
-```
-
-## 📊 Dataset
-
-**Telco Customer Churn Dataset**
-- **Source**: Kaggle
-- **Size**: 7,043 customers
-- **Features**: 21 (tenure, contract type, monthly charges, etc.)
-- **Target**: Binary churn label
-
-## 🎯 Model Performance
-
-| Metric | Value |
-|--------|-------|
-| Accuracy | TBD |
-| Precision | TBD |
-| Recall | TBD |
-| F1 Score | TBD |
-| ROC AUC | TBD |
-
-## 🔄 Usage
-
-### Training
-```bash
-python src/models/train.py --config config/config.yaml
-```
-
-### API (Local)
-```bash
-uvicorn src.api.main:app --reload
-# API available at http://localhost:8000
-# Docs at http://localhost:8000/docs
-```
-
-### Prediction
+**Make a Prediction:**
 ```bash
 curl -X POST "http://localhost:8000/predict" \
   -H "Content-Type: application/json" \
-  -d '{"tenure": 12, "monthly_charges": 50.0, ...}'
+  -d '{
+    "gender": "Female",
+    "SeniorCitizen": 0,
+    "Partner": "Yes",
+    "tenure": 12,
+    "Contract": "One year",
+    "MonthlyCharges": 50.5,
+    ...
+  }'
 ```
 
-### Run Tests
+**Response:**
+```json
+{
+  "churn_prediction": 0,
+  "churn_probability": 0.119,
+  "risk_level": "low",
+  "timestamp": "2025-11-06T19:08:31"
+}
+```
+
+## 🐳 Docker Deployment
 ```bash
-pytest tests/ -v --cov=src
+# Build and run
+docker-compose up --build
+
+# Access services
+# API: http://localhost:8000
+# MLflow: http://localhost:5000
+# Prometheus: http://localhost:9090
+# Grafana: http://localhost:3000
 ```
 
-## 🐳 Docker
+## 📈 Key Insights
 
+### Top Churn Predictors
+1. **Tenure** - New customers (< 12 months) are high risk
+2. **Contract Type** - Month-to-month contracts have 3x higher churn
+3. **Monthly Charges** - Customers paying $70+ are more likely to leave
+4. **Services** - Lack of OnlineSecurity and TechSupport increases risk
+
+### Business Recommendations
+- Target retention efforts at customers in their first year
+- Incentivize annual contracts with discounts
+- Proactively offer support services to high-paying customers
+- Focus on customers with month-to-month contracts
+
+## 🧪 Testing
 ```bash
-# Build image
-docker build -t ml-churn-api .
+# Run all tests
+pytest tests/ -v
 
-# Run container
-docker run -p 8000:8000 ml-churn-api
+# With coverage
+pytest --cov=src --cov-report=html
 ```
 
-## 📈 Monitoring
+## 📊 Model Comparison
 
-Access monitoring dashboards:
-- **MLflow**: http://localhost:5000
-- **Grafana**: http://localhost:3000
-- **Prometheus**: http://localhost:9090
+| Model | ROC-AUC | Accuracy | Precision | Recall |
+|-------|---------|----------|-----------|--------|
+| Logistic Regression | **0.840** ⭐ | 79.8% | 64.1% | 54.8% |
+| Random Forest | 0.837 | 80.0% | 65.8% | 51.3% |
+| XGBoost | 0.837 | 79.8% | 64.4% | 53.2% |
 
-## 🤝 Contributing
+**Best Model:** Logistic Regression selected for production deployment.
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## 🎯 Features
+
+- ✅ Automated data preprocessing pipeline
+- ✅ Multiple ML algorithms (Logistic Regression, Random Forest, XGBoost)
+- ✅ Experiment tracking with MLflow
+- ✅ REST API with FastAPI
+- ✅ Interactive API documentation (Swagger UI)
+- ✅ Docker containerization
+- ✅ Model evaluation with comprehensive metrics
+- ✅ Feature importance analysis
+- ✅ Production-ready error handling
+- ✅ Comprehensive test suite
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
 
 ## 👤 Author
 
-**Your Name**
-- GitHub: [@yourusername](https://github.com/yourusername)
-- LinkedIn: [Your LinkedIn](https://linkedin.com/in/yourprofile)
+**Harjeet Chahal**
+- GitHub: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- LinkedIn: [Your LinkedIn](https://linkedin.com/in/your-profile)
 
 ## 🙏 Acknowledgments
 
-- Dataset from Kaggle
+- Dataset: [Telco Customer Churn](https://www.kaggle.com/datasets/blastchar/telco-customer-churn)
 - Inspired by production ML systems at leading tech companies
-- Built with modern MLOps best practices
-
-## 📚 Resources
-
-- [MLflow Documentation](https://mlflow.org/docs/latest/index.html)
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [DVC Documentation](https://dvc.org/doc)
-- [Evidently AI Documentation](https://docs.evidentlyai.com/)
 
 ---
 
