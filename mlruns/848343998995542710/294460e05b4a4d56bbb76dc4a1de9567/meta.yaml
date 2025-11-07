@@ -1,0 +1,15 @@
+artifact_uri: /Users/harjeetschahal/Documents/Projects/ml-churn-prediction/mlruns/848343998995542710/294460e05b4a4d56bbb76dc4a1de9567/artifacts
+end_time: 1762462994495
+entry_point_name: ''
+experiment_id: '848343998995542710'
+lifecycle_stage: active
+run_id: 294460e05b4a4d56bbb76dc4a1de9567
+run_name: churn_xgboost
+run_uuid: 294460e05b4a4d56bbb76dc4a1de9567
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1762462992284
+status: 3
+tags: []
+user_id: harjeetschahal

@@ -1,0 +1,88 @@
+# ML Churn Prediction - Configuration File
+
+# Data paths
+data:
+  raw_data_path: "data/raw/telco_churn.csv"
+  processed_data_path: "data/processed/processed_churn.csv"
+  models_path: "data/models"
+  train_test_split: 0.2
+  random_state: 42
+
+# Feature engineering
+features:
+  numeric_features:
+    - "tenure"
+    - "MonthlyCharges"
+    - "TotalCharges"
+  categorical_features:
+    - "gender"
+    - "Partner"
+    - "Dependents"
+    - "PhoneService"
+    - "MultipleLines"
+    - "InternetService"
+    - "OnlineSecurity"
+    - "OnlineBackup"
+    - "DeviceProtection"
+    - "TechSupport"
+    - "StreamingTV"
+    - "StreamingMovies"
+    - "Contract"
+    - "PaperlessBilling"
+    - "PaymentMethod"
+  target: "Churn"
+  
+# Model training
+model:
+  algorithm: "xgboost"
+  hyperparameters:
+    xgboost:
+      n_estimators: 100
+      max_depth: 6
+      learning_rate: 0.1
+      subsample: 0.8
+      colsample_bytree: 0.8
+      random_state: 42
+    random_forest:
+      n_estimators: 100
+      max_depth: 10
+      min_samples_split: 5
+      random_state: 42
+  cv_folds: 5
+  
+# MLflow tracking - LOCAL ONLY
+mlflow:
+  tracking_uri: "./mlruns"
+  experiment_name: "churn_prediction"
+  model_registry_name: "churn_model"
+  
+# API configuration
+api:
+  host: "0.0.0.0"
+  port: 8000
+  model_version: "production"
+  reload: true
+  
+# Monitoring
+monitoring:
+  drift_detection:
+    enabled: true
+    reference_data_path: "data/processed/reference_data.csv"
+    threshold: 0.05
+  metrics_port: 8001
+  alert_thresholds:
+    accuracy_drop: 0.05
+    latency_ms: 500
+    
+# Retraining
+retraining:
+  schedule: "0 0 * * 0"
+  min_new_samples: 1000
+  performance_threshold: 0.80
+  auto_deploy: false
+  
+# Logging
+logging:
+  level: "INFO"
+  format: "json"
+  file_path: "logs/app.log"
