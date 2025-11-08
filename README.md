@@ -1,9 +1,11 @@
 # 🎯 Customer Churn Prediction - MLOps System
 
-A production-ready machine learning system for predicting customer churn with **84% ROC-AUC accuracy**. Built with FastAPI, MLflow, and automated CI/CD pipeline.
-
+![CI/CD](https://github.com/harjeet-chahal/customer-churn-prediction/workflows/CI/CD%20Pipeline/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.12-blue.svg)
 ![FastAPI](https://img.shields.io/badge/FastAPI-0.108-green.svg)
+![MLflow](https://img.shields.io/badge/MLflow-2.9-orange.svg)
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+
 ![MLflow](https://img.shields.io/badge/MLflow-2.9-orange.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
