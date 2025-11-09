@@ -3,12 +3,13 @@ FastAPI application for churn prediction
 """
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field
 from typing import List, Dict, Any, Optional
 import pandas as pd
 import numpy as np
 from pathlib import Path
 import sys
+import os
 import joblib
 import json
 from datetime import datetime
@@ -43,7 +44,7 @@ predictor = None
 config = None
 
 
-# Pydantic models for request/response
+# Pydantic models (keep all your existing models here)
 class CustomerFeatures(BaseModel):
     """Customer features for prediction"""
     gender: str = Field(..., description="Customer gender")
@@ -182,15 +183,7 @@ async def health_check():
 
 @app.post("/predict", response_model=PredictionResponse)
 async def predict(customer: CustomerFeatures):
-    """
-    Predict churn for a single customer
-    
-    Args:
-        customer: Customer features
-        
-    Returns:
-        Prediction result
-    """
+    """Predict churn for a single customer"""
     if predictor is None:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
@@ -198,10 +191,7 @@ async def predict(customer: CustomerFeatures):
         )
     
     try:
-        # Convert to dict
         features = customer.dict()
-        
-        # Make prediction
         result = predictor.predict_single(features)
         
         return PredictionResponse(
@@ -221,15 +211,7 @@ async def predict(customer: CustomerFeatures):
 
 @app.post("/predict/batch", response_model=BatchPredictionResponse)
 async def predict_batch(request: BatchPredictionRequest):
-    """
-    Predict churn for multiple customers
-    
-    Args:
-        request: Batch prediction request
-        
-    Returns:
-        Batch prediction results
-    """
+    """Predict churn for multiple customers"""
     if predictor is None:
         raise HTTPException(
             status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
@@ -237,13 +219,9 @@ async def predict_batch(request: BatchPredictionRequest):
         )
     
     try:
-        # Convert customers to list of dicts
         features_list = [customer.dict() for customer in request.customers]
-        
-        # Make predictions
         results = predictor.predict_batch(features_list)
         
-        # Format responses
         predictions = []
         high_risk_count = 0
         
@@ -292,14 +270,8 @@ async def model_info():
 if __name__ == "__main__":
     import uvicorn
     
-    # Load config for port
-    try:
-        config = load_config()
-        host = config['api']['host']
-        port = config['api']['port']
-    except:
-        host = "0.0.0.0"
-        port = 8000
+    # Get port from environment or use default
+    port = int(os.environ.get("PORT", 8000))
     
-    logger.info(f"Starting server on {host}:{port}")
-    uvicorn.run(app, host=host, port=port)
+    logger.info(f"Starting server on 0.0.0.0:{port}")
+    uvicorn.run(app, host="0.0.0.0", port=port)
