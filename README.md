@@ -6,6 +6,50 @@
 ![MLflow](https://img.shields.io/badge/MLflow-2.9-orange.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
+## 🌐 Live Demo
+
+**Try the live API:** https://churn-prediction-api-r70r.onrender.com/docs
+
+The API is deployed on Render and serves real-time churn predictions 24/7.
+
+### Quick Test
+```bash
+curl -X POST "https://churn-prediction-api-r70r.onrender.com/predict" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "gender": "Female",
+    "SeniorCitizen": 0,
+    "Partner": "Yes",
+    "Dependents": "No",
+    "tenure": 12,
+    "PhoneService": "Yes",
+    "MultipleLines": "No",
+    "InternetService": "DSL",
+    "OnlineSecurity": "Yes",
+    "OnlineBackup": "Yes",
+    "DeviceProtection": "No",
+    "TechSupport": "No",
+    "StreamingTV": "No",
+    "StreamingMovies": "No",
+    "Contract": "One year",
+    "PaperlessBilling": "Yes",
+    "PaymentMethod": "Electronic check",
+    "MonthlyCharges": 50.5,
+    "TotalCharges": 600.0
+  }'
+```
+
+Response:
+```json
+{
+  "churn_prediction": 0,
+  "churn_probability": 0.119,
+  "risk_level": "low",
+  "timestamp": "2025-11-08T..."
+}
+```
+
+
 ![MLflow](https://img.shields.io/badge/MLflow-2.9-orange.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
 
